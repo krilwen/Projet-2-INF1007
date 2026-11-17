@@ -1,5 +1,16 @@
 # Projet-2-INF1007
 
+Pour installer les dependances et lancer les tests depuis la racine du depot :
+
+```powershell
+python -m pip install -r requirements.txt
+python -m pytest -v
+```
+
+Le workflow `.github/workflows/tests.yml` lance les tests sur GitHub Actions
+a chaque push et pull request, avec Python 3.12. Le premier test verifie que
+le CSV respecte les criteres de taille, de cible et de types de variables.
+
 https://www.kaggle.com/datasets/arunjathari/bostonhousepricedata
 on prend lui :
 
