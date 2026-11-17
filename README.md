@@ -1,26 +1,47 @@
-# Projet-2-INF1007
+# Projet 2 - INF1007
 
-Pour installer les dependances et lancer les tests depuis la racine du depot :
+On veut estimer la note finale d'un élève à partir des informations du jeu de données Student Performance. Le modèle et l'interface restent à faire.
+
+## Données
+
+On a choisi [Student Performance sur Kaggle](https://www.kaggle.com/datasets/larsen0966/student-performance-data-set).
+Le fichier utilisé est `donnees/student-por.csv`. Ses valeurs et ses colonnes sont identiques à celles du fichier original publié par [UCI sous licence CC BY 4.0](https://archive.ics.uci.edu/dataset/320/student+performance).
+
+Source originale : Cortez, P. (2008). *Student Performance*. UCI Machine Learning Repository. https://doi.org/10.24432/C5TG7T.
+
+Le CSV contient 649 lignes et 33 colonnes. On n'a trouvé aucune valeur manquante ni aucun doublon. La colonne `G3` contient 15 notes égales à zéro. On les garde pour l'instant : on n'a pas établi que ce sont des erreurs.
+
+## Ce qu'on veut prédire
+
+La cible est `G3`, la note finale sur 20. On part sur une régression, puisqu'on veut prédire une note.
+
+On prévoit d'utiliser le RMSE pour mesurer l'erreur en points sur 20. On comparera le modèle à une prédiction simple : donner à chaque élève la moyenne des notes de l'ensemble d'entraînement. Cette comparaison n'a pas encore été faite.
+
+## Installation et tests
+
+Depuis la racine du projet, avec Python 3.12 :
 
 ```powershell
-python -m pip install -r requirements.txt
-python -m pytest -v
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m pytest -v
 ```
 
-Le workflow `.github/workflows/tests.yml` lance les tests sur GitHub Actions
-a chaque push et pull request, avec Python 3.12. Le premier test verifie que
-le CSV respecte les criteres de taille, de cible et de types de variables.
+Pour le moment, on a un test qui vérifie le CSV : sa présence, le nombre de lignes et de colonnes d'entrée, la cible et les types de variables. GitHub Actions lance les tests à chaque push et pull request.
 
-https://www.kaggle.com/datasets/arunjathari/bostonhousepricedata
-on prend lui :
+## Exploration
 
-https://www.kaggle.com/datasets/larsen0966/student-performance-data-set
+```powershell
+.\.venv\Scripts\python.exe EXPLORATION.py
+```
 
-1. Explorer et nettoyer :
-Les données ont été chargées avec pandas : 649 élèves, 33 colonnes (16 numériques, 17 catégorielles). Nous avons vérifié les types, les valeurs manquantes, les doublons et les valeurs aberrantes. Voici ce que nous avons trouvée : aucune valeur manquante, aucun doublon, et toutes les valeurs sont dans des intervalles plausibles (âge de 15 à 22 ans, notes de 0 à 19). Aucune correction n’a donc été nécessaire.
+Le script affiche les informations du CSV et un histogramme de `G3`. Il enregistre aussi le graphique dans `exploration_cible.png`.
 
-L’histogramme de la note finale G3 (exploration_cible.png) montre une distribution en cloche centrée vers 11-12, un pic à 10 (la note de passage) et un petit groupe d’une quinzaine d’élèves à 0, probablement des élèves qui n’ont pas passé l’examen final. Nous avons décidé de les garder, car ils représentent des échecs réels et que l’application doit pouvoir détecter les élèves à risque. Les retirer ferait paraître les échecs moins nombreux et pourrait fausser la prédiction.
+## Où on en est
 
-2. Définir le problème :
-Notre variable cible est “G3” qui est la note final des élèves dans nos données. C’est un problème de type de régression car notre donnée cible est un nombre (x/20). Notre métrique d’évaluation est le RMSE (racine de l’erreur quadratique moyenne), qui exprime l’erreur moyenne de nos prédictions en points sur 20. Nous la comparons à une référence simple : prédire toujours la moyenne des notes d’entraînement. Nous complétons avec le pourcentage de décisions réussite/échec correctes, en appliquant la note de passage au Portugal (10/20, soit 50 %) aux notes prédites. Nous justifions ce choix car le but de notre application est de prédire la réussite d’un élève, c’est-à-dire de savoir s’il obtiendra une note G3 supérieure ou égale à 10 : le RMSE mesure la qualité de la note prédite, et le seuil de 10 la transforme en décision.
+- `EXPLORATION.py` : exploration des données.
+- `tests/test_donnees.py` : premier test pour la CI.
+- `src/` : fichiers prévus pour le code, encore vides.
+- `modeles/` : aucun modèle sauvegardé pour le moment.
 
+Il reste à choisir les variables d'entrée et le modèle, faire l'entraînement et l'évaluation, puis créer l'interface. Il faudra aussi compléter les tests, mesurer la couverture et ajouter les références de documentation consultées.
