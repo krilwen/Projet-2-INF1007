@@ -1,14 +1,13 @@
-﻿# Utilisation de l'IA
+# Journal IA
 
+On a utilisé l'IA pour des explications, de la rédaction et du code. (L'IA a été utilisé pour faire se tableau et les tableau dans README.md et DECISIONS.md)
 
-(log crée par codex  )
-
-On a utilisé l'IA pour nous aider sur les points ci-dessous. Les vérifications sont indiquées pour chaque demande.
-
-| Outil | Ce qu'on a demandé | Réponse reçue | Vérification faite | Décision |
+| Outil | Demande | Réponse reçue | Vérification | Décision |
 | --- | --- | --- | --- | --- |
-| IA (outil non précisé dans notre première note) | Aider à créer la structure du projet. | Une organisation avec src, tests, donnees et modeles. | Les dossiers sont présents et correspondent à la structure suggérée dans l'énoncé. | Gardé. |
-| ChatGPT / Codex | Comparer notre projet à l'énoncé pour voir ce qu'il reste à faire. | L'exploration est commencée, mais le modèle, l'interface et les tests restent à développer. | Lecture de l'énoncé et des fichiers. À ce moment-là, les fichiers de src et les tests étaient vides. | Gardé comme liste de travail. |
-| ChatGPT / Codex | Ajouter un premier test pour la CI. | Un test qui charge le CSV et vérifie les critères de base du jeu de données. | Exécution avec pytest : 1 test réussi en local. La capture GitHub après le push montre aussi une exécution réussie. | Gardé. |
-| ChatGPT / Codex | Expliquer pourquoi la CI échouait avant. | pytest ne trouvait aucun test dans les fichiers vides. | Vérification de la dernière exécution en échec sur GitHub : l'étape des tests avait terminé avec le code 5. | Gardé. | 
-| ChatGPT / Codex | Réécrire la structure du README, les décisions et ce journal plus simplement(faire des tableau pour lecture plus facile). | Des textes qui distinguent ce qui est fait de ce qui reste à faire. | Comparaison avec les fichiers présents et les échanges de cette conversation. | Gardé comme version de travail. |
+|ChatGPT | Aider à créer la structure du projet. | Une structure avec src, tests, donnees et modeles. | Les dossiers sont présents et correspondent à l'exemple de l'énoncé. | Gardé. |
+| ChatGPT / Codex | Regarder l'énoncé et dire ce qu'il reste à faire. | Une liste des parties manquantes. | Lecture de l'énoncé et des fichiers. À ce moment-là, les fichiers de src étaient vides. | Gardé comme liste de travail. |
+| ChatGPT / Codex | Faire fonctionner le premier test CI et expliquer l'échec. | Un test du CSV. L'échec venait du fait que les fichiers de tests étaient vides. | Test réussi en local, puis CI verte sur GitHub après le push.| Gardé. |
+| ChatGPT / Codex | Corriger la partie données et régression avec nos cinq entrées. | Du code corrigé et amélioré pour les parties : charger, vérifier, entraîner, prédire et sauvegarder. | Entraînement local sur 519 élèves, test sur 130. RMSE de 1,152. Une prédiction fonctionne aussi après rechargement. | Gardé comme base à relire et à comprendre. |
+| ChatGPT / Codex | Expliquer et calculer la référence. | Prédire la moyenne des notes d'entraînement. | Le JSON donne 11,79/20. Un test vérifie que les notes de test ne changent pas cette moyenne. | Corrigé dans la fiche : la référence vient du groupe d'entraînement, pas du CSV complet, dont la moyenne était de 11,91/20. |
+| ChatGPT / Codex | Écrire les tests du modèle et des données. | Des tests sur les saisies, les calculs et les sauvegardes. | 37 cas réussis. Le RMSE est comparé à un calcul connu et à scikit-learn. Un autre test vérifie une formule dont on connaît le résultat. | Gardé. |
+| ChatGPT / Codex | Corriger le lancement avec main.py et le bouton Run de VS Code. | Un main.py à la racine et une correction des imports pour le lancement direct de src/main.py. Sans argument, on entraîne le modèle. | Les deux fichiers sont testés depuis un autre dossier. Le lancement depuis le dossier parent fonctionne : 39 cas réussis au total. | Gardé. |

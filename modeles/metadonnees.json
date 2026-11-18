@@ -1,0 +1,83 @@
+{
+  "modele": "LinearRegression",
+  "cible": "G3",
+  "colonnes": [
+    "G1",
+    "G2",
+    "failures",
+    "studytime",
+    "schoolsup"
+  ],
+  "variables": [
+    {
+      "nom": "G1",
+      "libelle": "Note de la premiere periode",
+      "type": "numerique",
+      "minimum": 0,
+      "maximum": 20,
+      "entier": false
+    },
+    {
+      "nom": "G2",
+      "libelle": "Note de la deuxieme periode",
+      "type": "numerique",
+      "minimum": 0,
+      "maximum": 20,
+      "entier": false
+    },
+    {
+      "nom": "failures",
+      "libelle": "Echecs scolaires anterieurs",
+      "type": "numerique",
+      "minimum": 0,
+      "maximum": 3,
+      "entier": true
+    },
+    {
+      "nom": "studytime",
+      "libelle": "Tranche de temps d'etude (code)",
+      "type": "numerique",
+      "minimum": 1,
+      "maximum": 4,
+      "entier": true
+    },
+    {
+      "nom": "schoolsup",
+      "libelle": "Soutien scolaire supplementaire",
+      "type": "categorielle",
+      "categories": [
+        "no",
+        "yes"
+      ]
+    }
+  ],
+  "encodage": {
+    "schoolsup": {
+      "no": 0,
+      "yes": 1
+    }
+  },
+  "studytime": {
+    "1": "Moins de 2 h par semaine",
+    "2": "De 2 a 5 h par semaine",
+    "3": "De 5 a 10 h par semaine",
+    "4": "Plus de 10 h par semaine"
+  },
+  "moyenne_reference": 11.79383429672447,
+  "resultats": {
+    "rmse_modele": 1.1524807979795186,
+    "rmse_reference": 3.1725903070595547
+  },
+  "nombre_entrainement": 519,
+  "nombre_test": 130,
+  "separation": {
+    "part_test": 0.2,
+    "graine": 42
+  },
+  "duree_entrainement_secondes": 0.035996299993712455,
+  "versions": {
+    "scikit_learn": "1.9.1",
+    "numpy": "2.5.4",
+    "pandas": "3.1.1"
+  }
+}
