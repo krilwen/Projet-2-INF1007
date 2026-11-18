@@ -1,4 +1,4 @@
-"""Point de depart pour explorer les donnees, entrainer ou predire."""
+"""Point de départ pour ouvrir l'interface, explorer, entraîner ou prédire."""
 
 import argparse
 import os
@@ -45,7 +45,7 @@ def main(arguments: list[str] | None = None) -> int:
         "--predire", nargs=5, metavar=("G1", "G2", "FAILURES", "STUDYTIME", "SCHOOLSUP"),
         help="Predire avec la sauvegarde; schoolsup vaut yes ou no.",
     )
-    actions.add_argument("--interface", action="store_true", help="Ouvrir la fenetre.")
+    actions.add_argument("--interface", action="store_true", help="Ouvrir la fenetre (par defaut).")
     analyseur.add_argument("--donnees", default=CHEMIN_DONNEES, help="Chemin du CSV.")
     analyseur.add_argument(
         "--sortie", default=os.path.join(RACINE, "modeles"), help="Dossier du modele sauvegarde.",
@@ -56,11 +56,7 @@ def main(arguments: list[str] | None = None) -> int:
             jeu = JeuDeDonnees(options.donnees)
             jeu.charger()
             jeu.explorer(os.path.join(RACINE, "exploration_cible.png"))
-        elif options.interface:
-            from src.interface import lancer
-            lancer()
-        # Sans option, on lance l'entrainement.
-        elif options.predire is None:
+        elif options.entrainer:
             resultats = entrainer_projet(options.donnees, options.sortie)
             print(
                 f"Entrainement : {resultats['nombre_entrainement']} eleves // test : {resultats['nombre_test']} eleves."
@@ -70,11 +66,15 @@ def main(arguments: list[str] | None = None) -> int:
             print(f"RMSE du modele : {resultats['rmse_modele']:.3f}")
             print(f"R^2 du modèle : {resultats['r2_modele']:.3f}")
             print(f"Fichiers enregistres dans : {os.path.abspath(options.sortie)}")
-        else:
+        elif options.predire is not None:
             modele = ModeleRegression.charger(options.sortie)
             saisies = dict(zip(COLONNES_ENTREE, options.predire))
             note = modele.predire_un(saisies)
             print(f"Note finale estimee : {note:.2f}/20")
+        else:
+            # Sans option ou avec --interface, on ouvre la fenêtre.
+            from src.interface import lancer
+            lancer()
     except (DonneeInvalideError, OSError, ValueError) as erreur:
         print(f"Erreur : {erreur}", file=sys.stderr)
         return 1

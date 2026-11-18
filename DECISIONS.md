@@ -6,12 +6,12 @@ A et B sont validés. Pour C, on a retenu les choix ci-dessous, mais la réponse
 | --- | --- | --- | --- |
 | A - Domaine | Immobilier ou éducation | On a pris l'éducation. L'utilisateur pourra entrer les informations d'un élève et avoir une estimation de sa note finale. | Oui, 16 nov |
 | B - Données | Boston House Prices ou Student Performance | On a pris Student Performance, avec student-por.csv. Ça correspond à notre sujet et il y a des notes à prédire, assez de lignes et les deux types de variables demandés. | Oui, 16 nov |
-| C - Cible | Note finale ou réussite/échec | On prédit G3, la note finale sur 20. C'est donc une régression. | À valider |
-| C - Entrées | Les colonnes du CSV | On utilise G1, G2, failures, studytime et schoolsup. Ça fait cinq entrées, dont une catégorielle. G1 et G2 doivent être connues, donc on prédit après la deuxième période. | À valider |
-| C - Modèle | **Régression linéaire** ou arbre de régression | On part sur une régression linéaire. On veut tester si une formule qui additionne les contributions des cinq entrées permet d'estimer G3. | À valider |
-| C - Mesure des erreurs | **RMSE** ou R² | On prend le RMSE pour mesurer les erreurs en points sur 20. Plus il est bas, mieux c'est. | À valider |
-| C - Référence | Toujours prédire une même note | On utilise la moyenne des notes d'entraînement : 11,79/20. On regarde si la régression fait moins d'erreurs que de prédire cette note à chaque fois. | À valider |
-| C - Séparation | Plusieurs répartitions possibles | On utilise 80 % des données pour entraîner et 20 % pour tester. random_state=42 garde les mêmes groupes à chaque exécution. | À valider |
+| C - Cible | Note finale ou réussite/échec | On prédit G3, la note finale sur 20. C'est donc une régression. | Oui, 17 nov |
+| C - Entrées | Les colonnes du CSV | On utilise G1, G2, failures, studytime et schoolsup. Ça fait cinq entrées, dont une catégorielle. G1 et G2 doivent être connues, donc on prédit après la deuxième période. | Oui, 17 nov |
+| C - Modèle | **Régression linéaire** ou arbre de régression | On part sur une régression linéaire. On veut tester si une formule qui additionne les contributions des cinq entrées permet d'estimer G3. | Oui, 17 nov |
+| C - Mesure des erreurs | **RMSE** ou R² | On prend le RMSE pour mesurer les erreurs en points sur 20. Plus il est bas, mieux c'est. | Oui, 17 nov |
+| C - Référence | Toujours prédire une même note | On utilise la moyenne des notes d'entraînement : 11,79/20. On regarde si la régression fait moins d'erreurs que de prédire cette note à chaque fois. | Oui, 17 nov |
+| C - Séparation | Plusieurs répartitions possibles | On utilise 80 % des données pour entraîner et 20 % pour tester. random_state=42 garde les mêmes groupes à chaque exécution. | Oui, 17 nov |
 
 
 ## Vérifications pour B

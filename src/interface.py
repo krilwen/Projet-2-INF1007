@@ -1,3 +1,4 @@
+import csv
 import os
 import tkinter as tk
 from tkinter import ttk
@@ -5,20 +6,20 @@ from tkinter import ttk
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-from src.donnees import (
-    RACINE, JeuDeDonnees, VariableCategorielle,
-    charger_variables, valider_saisies,
-)
+from src.donnees import RACINE, JeuDeDonnees, VariableCategorielle
+from src.donnees import charger_variables, valider_saisies
 from src.exceptions import DonneeInvalideError
+from src.historique import COLONNES_HISTORIQUE, enregistrer_prediction, lire_historique
 from src.modele import ModeleRegression
 
 DOSSIER_MODELE = os.path.join(RACINE, "modeles")
 CHEMIN_JSON = os.path.join(DOSSIER_MODELE, "metadonnees.json")
+CHEMIN_HISTORIQUE = os.path.join(RACINE, "historique.csv")
 SEUIL_REUSSITE = 10
 
 
 class Application:
-    """Fenêtre principale : saisie, prédiction et graphique."""
+    """Fenêtre principale avec les saisies, la prédiction et l'historique."""
 
     def __init__(self, fenetre, variables, modele, notes):
         """Reçoit la fenêtre, les variables, le modèle et les notes G3."""
@@ -48,19 +49,56 @@ class Application:
             self._champs[variable.nom] = champ
             ligne = ligne + 1
 
-    def _construire_zone_resultat(self):
-        """Crée le bouton, la zone d'erreur et la zone de résultat."""
+    def _construire_zone_resultat(self) -> None:
+        """Ajoute les boutons, le résultat"""
         ligne = len(self._variables)
         bouton = tk.Button(self._fenetre, text="Prédire", command=self._predire)
-        bouton.grid(row=ligne, column=0, columnspan=2, pady=10)
+        bouton.grid(row=ligne, column=0, pady=10)
+        bouton_historique = tk.Button(
+            self._fenetre, text="Voir l'historique", command=self._afficher_historique,
+        )
+        bouton_historique.grid(row=ligne, column=1, pady=10)
         self._erreur = tk.Label(self._fenetre, text="", fg="red")
         self._erreur.grid(row=ligne + 1, column=0, columnspan=2)
         self._resultat = tk.Label(self._fenetre, text="")
         self._resultat.grid(row=ligne + 2, column=0, columnspan=2, pady=5)
+        
+      
+
+    def _afficher_historique(self) -> None:
+        """Ouvre les prédictions sauvegardées et affiche un message si la lecture échoue."""
+        fenetre = tk.Toplevel(self._fenetre)
+        fenetre.title("Historique des prédictions")
+        fenetre.transient(self._fenetre)
+
+        try:
+            predictions = lire_historique(CHEMIN_HISTORIQUE)
+        except (DonneeInvalideError, OSError, UnicodeError, csv.Error) as erreur:
+            tk.Label(fenetre, text=f"Impossible de lire l'historique. {erreur}").pack(padx=15, pady=15)
+            return
+
+        if not predictions:
+            tk.Label(fenetre, text="Aucune prédiction enregistrée.").pack(padx=15, pady=15)
+            return
+
+        tableau = ttk.Treeview(fenetre, columns=COLONNES_HISTORIQUE, show="headings")
+        titres = ["Date et heure", "G1", "G2", "Échecs", "Étude (code)", "Soutien", "Note / 20"]
+        for colonne, titre in zip(COLONNES_HISTORIQUE, titres):
+            tableau.heading(colonne, text=titre)
+            tableau.column(colonne, width=150 if colonne == "date_heure" else 85, anchor="center")
+
+        for prediction in reversed(predictions):
+            valeurs = [prediction[colonne] for colonne in COLONNES_HISTORIQUE]
+            tableau.insert("", "end", values=valeurs)
+
+        barre = ttk.Scrollbar(fenetre, orient="vertical", command=tableau.yview)
+        tableau.configure(yscrollcommand=barre.set)
+        barre.pack(side="right", fill="y")
+        tableau.pack(side="left", fill="both", expand=True)
 
     def _construire_graphique(self):
         """Crée la zone Matplotlib et dessine le graphique de départ."""
-        ligne = len(self._variables) + 3
+        ligne = len(self._variables) + 4
         self._figure = Figure(figsize=(5, 3))
         self._axe = self._figure.add_subplot(111)
         self._canvas = FigureCanvasTkAgg(self._figure, master=self._fenetre)
@@ -87,15 +125,15 @@ class Application:
         self._axe.legend()
         self._canvas.draw()
 
-    def _predire(self):
-        """Valide les saisies, prédit la note et met à jour l'écran."""
+    def _predire(self) -> None:
+        """Prédit et enregistre la note si les cinq saisies sont valides."""
         saisies = {}
         for nom in self._champs:
             saisies[nom] = self._champs[nom].get()
         try:
-            valider_saisies(self._variables, saisies)
+            valeurs = valider_saisies(self._variables, saisies)
             note = self._modele.predire_un(saisies)
-            marge = self._modele.rmse
+            rmse = self._modele.rmse
         except (DonneeInvalideError, ValueError) as erreur:
             self._resultat.config(text="")
             self._erreur.config(text=str(erreur))
@@ -108,9 +146,14 @@ class Application:
             verdict = "échec probable"
         self._erreur.config(text="")
         self._resultat.config(
-            text=f"Note prévue : {note:.1f} / 20 (± {marge:.1f}) → {verdict}"
+            text=f"Note prévue : {note:.1f} / 20 → {verdict}\n"
+                 f"Erreur sur le groupe de test (RMSE) : {rmse:.3f} point(s)"
         )
         self._dessiner_graphique(note)
+        try:
+            enregistrer_prediction(CHEMIN_HISTORIQUE, valeurs, note)
+        except (OSError, csv.Error) as erreur:
+            self._erreur.config(text=f"Prédiction non enregistrée. {erreur}")
 
 
 def lancer():

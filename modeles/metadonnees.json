@@ -11,7 +11,7 @@
   "variables": [
     {
       "nom": "G1",
-      "libelle": "Note de la premiere periode",
+      "libelle": "Note de la premiere periode /20",
       "type": "numerique",
       "minimum": 0,
       "maximum": 20,
@@ -19,7 +19,7 @@
     },
     {
       "nom": "G2",
-      "libelle": "Note de la deuxieme periode",
+      "libelle": "Note de la deuxieme periode /20",
       "type": "numerique",
       "minimum": 0,
       "maximum": 20,
@@ -27,7 +27,7 @@
     },
     {
       "nom": "failures",
-      "libelle": "Echecs scolaires anterieurs",
+      "libelle": "Echecs scolaires anterieurs (0-3)",
       "type": "numerique",
       "minimum": 0,
       "maximum": 3,
@@ -35,7 +35,7 @@
     },
     {
       "nom": "studytime",
-      "libelle": "Tranche de temps d'etude (code)",
+      "libelle": "Tranche de temps d'etude (code) (entre 1-4)",
       "type": "numerique",
       "minimum": 1,
       "maximum": 4,
@@ -75,7 +75,7 @@
     "part_test": 0.2,
     "graine": 42
   },
-  "duree_entrainement_secondes": 0.030533300014212728,
+  "duree_entrainement_secondes": 0.03503869997803122,
   "versions": {
     "scikit_learn": "1.9.1",
     "numpy": "2.5.4",

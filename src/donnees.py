@@ -131,10 +131,10 @@ class VariableCategorielle(Variable):
 def creer_variables() -> list[Variable]:
     """Retourne les cinq variables avec leurs valeurs acceptees."""
     return [
-        VariableNumerique("G1", "Note de la premiere periode", 0, 20),
-        VariableNumerique("G2", "Note de la deuxieme periode", 0, 20),
-        VariableNumerique("failures", "Echecs scolaires anterieurs", 0, 3, True),
-        VariableNumerique("studytime", "Tranche de temps d'etude (code)", 1, 4, True),
+        VariableNumerique("G1", "Note de la premiere periode /20", 0, 20),
+        VariableNumerique("G2", "Note de la deuxieme periode /20", 0, 20),
+        VariableNumerique("failures", "Echecs scolaires anterieurs (0-3)", 0, 3, True),
+        VariableNumerique("studytime", "Tranche de temps d'etude (code) (entre 1-4)", 1, 4, True),
         VariableCategorielle("schoolsup", "Soutien scolaire supplementaire", ["no", "yes"]),
     ]
 

@@ -1,6 +1,6 @@
 # Projet 2 - INF1007
 
-On veut prédire G3, la note finale d'un élève sur 20. On utilise une régression linéaire avec les notes des deux premières périodes et trois autres informations. Pour l'instant, ça fonctionne en ligne de commande. L'interface reste à faire.
+On veut prédire G3, la note finale d'un élève sur 20. On utilise une régression linéaire avec les notes des deux premières périodes et trois autres informations. L'interface Tkinter affiche la note estimée et permet de consulter les prédictions précédentes.
 
 ## Données
 
@@ -34,27 +34,31 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 ~~~
 
-Pour explorer le CSV et créer [le graphique des notes](exploration_cible.png) :
+Pour ouvrir la fenêtre, clique sur **Run** dans src/main.py ou lance cette commande.
 
 ~~~powershell
-.\.venv\Scripts\python.exe main.py --explorer
+.\.venv\Scripts\python.exe src\main.py
 ~~~
 
-Pour entraîner et sauvegarder le modèle :
+Pour explorer le CSV et créer le graphique des notes, ajoute l'option --explorer.
 
 ~~~powershell
-.\.venv\Scripts\python.exe main.py
+.\.venv\Scripts\python.exe src\main.py --explorer
 ~~~
 
-Pour prédire une note avec la sauvegarde :
+Pour refaire l'entraînement et sauvegarder le modèle, ajoute l'option --entrainer.
 
 ~~~powershell
-.\.venv\Scripts\python.exe main.py --predire 12 13 0 2 yes
+.\.venv\Scripts\python.exe src\main.py --entrainer
 ~~~
 
-Les cinq valeurs sont dans l'ordre du tableau. Cet exemple donne environ 13,24/20. Le modèle est rechargé sans refaire l'entraînement.
+Pour prédire une note dans le terminal avec le modèle sauvegardé, utilise --predire.
 
-Sans argument, main.py lance l'entraînement. Le bouton Run sur src/main.py fonctionne aussi, même si le terminal est ouvert dans le dossier parent.
+~~~powershell
+.\.venv\Scripts\python.exe src\main.py --predire 12 13 0 2 yes
+~~~
+
+Les cinq valeurs sont dans l'ordre du tableau. Cet exemple donne environ 13,24/20.
 
 ## Résultats
 
@@ -78,7 +82,7 @@ Le [graphique du test](modeles/evaluation_modele.png) montre aussi des erreurs :
 - exceptions.py : notre erreur personnalisée.
 - main.py : les commandes pour lancer le tout.
 
-Ces quatre fichiers sont dans src. Le main.py à la racine appelle src/main.py. Les classes VariableNumerique et VariableCategorielle héritent de Variable et vérifient les saisies chacune à leur façon. JeuDeDonnees et ModeleRegression contiennent une liste de ces variables.
+Ces modules sont dans src. Les classes VariableNumerique et VariableCategorielle héritent de Variable et vérifient les saisies chacune à leur façon. JeuDeDonnees et ModeleRegression contiennent une liste de ces variables.
 
 Le modèle est dans modeles/regression_lineaire.joblib. Le fichier modeles/metadonnees.json contient les colonnes, les valeurs acceptées, les scores et les versions utilisées. Les versions des bibliothèques sont fixées dans requirements.txt.
 
@@ -103,5 +107,3 @@ On teste les saisies, la séparation des groupes, le calcul du RMSE, la moyenne 
 - [scikit-learn : sauvegarder un modèle](https://scikit-learn.org/stable/model_persistence.html)
 - [Matplotlib : graphique de points](https://matplotlib.org/stable/api/_as_gen/matplotlib.axes.Axes.scatter.html)
 - [coverage : mesurer la couverture](https://coverage.readthedocs.io/en/latest/commands/cmd_run.html)
-
-Il reste à choisir la technologie et la maquette pour D, puis à faire l'interface, son graphique et l'historique des prédictions. On ajoutera la documentation de l'interface quand elle sera choisie.

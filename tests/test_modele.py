@@ -136,17 +136,16 @@ def test_commandes_entrainer_puis_predire_sans_reentrainer(
     assert "Note finale estimee" in capsys.readouterr().out
 
 
-@pytest.mark.parametrize("fichier", ["main.py", "src/main.py"])
 def test_lancement_direct_depuis_un_autre_dossier(
-    fichier: str, petit_csv: Path, tmp_path: Path,
+    petit_csv: Path, tmp_path: Path,
 ) -> None:
-    """Verifie les deux fichiers main sans imposer le dossier du terminal."""
+    """Verifie l'entrainement depuis un autre dossier."""
     projet = Path(__file__).resolve().parent.parent
     sortie = tmp_path / "modele"
     resultat = subprocess.run(
         [
-            sys.executable, str(projet / fichier),
-            "--donnees", str(petit_csv), "--sortie", str(sortie),
+            sys.executable, str(projet / "src" / "main.py"),
+            "--entrainer", "--donnees", str(petit_csv), "--sortie", str(sortie),
         ],
         cwd=tmp_path, capture_output=True, text=True, timeout=60,
     )
