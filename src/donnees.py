@@ -33,6 +33,11 @@ class Variable(ABC):
         """Retourne le nom de la colonne."""
         return self._nom
 
+    @property
+    def libelle(self) -> str:
+        """Retourne le texte à afficher."""
+        return self._libelle
+
     @abstractmethod
     def valider(self, valeur: object) -> float | str:
         """Retourne la valeur si elle est valide, sinon leve une erreur."""
