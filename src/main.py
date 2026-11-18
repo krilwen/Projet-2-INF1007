@@ -63,8 +63,7 @@ def main(arguments: list[str] | None = None) -> int:
         elif options.predire is None:
             resultats = entrainer_projet(options.donnees, options.sortie)
             print(
-                f"Entrainement : {resultats['nombre_entrainement']} eleves ; "
-                f"test : {resultats['nombre_test']} eleves."
+                f"Entrainement : {resultats['nombre_entrainement']} eleves // test : {resultats['nombre_test']} eleves."
             )
             print(f"Note de reference : {resultats['moyenne_reference']:.2f}/20")
             print(f"RMSE de reference : {resultats['rmse_reference']:.3f}")

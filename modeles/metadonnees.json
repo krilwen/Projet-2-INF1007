@@ -66,6 +66,7 @@
   "moyenne_reference": 11.79383429672447,
   "resultats": {
     "rmse_modele": 1.1524807979795186,
+    "r2_modele": 0.8637971006400058,
     "rmse_reference": 3.1725903070595547
   },
   "nombre_entrainement": 519,
@@ -74,7 +75,7 @@
     "part_test": 0.2,
     "graine": 42
   },
-  "duree_entrainement_secondes": 0.03589619998820126,
+  "duree_entrainement_secondes": 0.030533300014212728,
   "versions": {
     "scikit_learn": "1.9.1",
     "numpy": "2.5.4",
