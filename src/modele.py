@@ -5,7 +5,7 @@ import json
 import os
 from time import perf_counter
 from typing import Callable
-
+from sklearn.metrics import r2_score
 import joblib
 import matplotlib.pyplot as plt
 import numpy as np
@@ -111,6 +111,7 @@ class ModeleRegression:
         reference = np.full(len(predictions), self.moyenne_reference)
         self._resultats = {
             "rmse_modele": calculer_rmse(cible_test, predictions),
+            "r2_modele": r2_score(cible_test, predictions),
             "rmse_reference": calculer_rmse(cible_test, reference),
         }
         self._nombre_test = len(predictions)

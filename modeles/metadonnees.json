@@ -74,7 +74,7 @@
     "part_test": 0.2,
     "graine": 42
   },
-  "duree_entrainement_secondes": 0.035996299993712455,
+  "duree_entrainement_secondes": 0.03589619998820126,
   "versions": {
     "scikit_learn": "1.9.1",
     "numpy": "2.5.4",

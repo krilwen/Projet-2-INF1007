@@ -69,6 +69,7 @@ def main(arguments: list[str] | None = None) -> int:
             print(f"Note de reference : {resultats['moyenne_reference']:.2f}/20")
             print(f"RMSE de reference : {resultats['rmse_reference']:.3f}")
             print(f"RMSE du modele : {resultats['rmse_modele']:.3f}")
+            print(f"R^2 du modèle : {resultats['r2_modele']:.3f}")
             print(f"Fichiers enregistres dans : {os.path.abspath(options.sortie)}")
         else:
             modele = ModeleRegression.charger(options.sortie)
