@@ -1,3 +1,4 @@
+import json
 """Exploration du CSV et preparation des cinq variables choisies."""
 
 from abc import ABC, abstractmethod
@@ -247,3 +248,48 @@ class JeuDeDonnees:
         if self._table is not None:
             lignes = len(self._table)
         return f"{os.path.basename(self._chemin)} : {lignes} lignes"
+        
+def variable_depuis_metadonnees(info: dict) -> Variable:
+    """Crée une variable à partir d'un dictionnaire de métadonnées et lève DonneeInvalideError si une clé manque ou si le type est inconnu."""
+    try:
+        if info["type"] == "numerique":
+            return VariableNumerique(
+                info["nom"], info["libelle"],
+                info["minimum"], info["maximum"], info["entier"],
+            )
+        if info["type"] == "categorielle":
+            return VariableCategorielle(
+                info["nom"], info["libelle"], info["categories"],
+            )
+    except KeyError as erreur:
+        raise DonneeInvalideError("Clé manquante dans les métadonnées : " + str(erreur))
+    raise DonneeInvalideError("Type de variable inconnu : " + str(info["type"]))
+
+
+def charger_variables(chemin: str) -> list:
+    """Lit le fichier JSON des métadonnées et retourne la liste des variables et lève DonneeInvalideError si le fichier est absent, illisible  ou s'il ne contient pas la clé "variables"."""
+    if not os.path.exists(chemin):
+        raise DonneeInvalideError("Métadonnées introuvables : " + chemin)
+    try:
+        with open(chemin, encoding="utf-8") as fichier:
+            contenu = json.load(fichier)
+    except json.JSONDecodeError:
+        raise DonneeInvalideError("Le fichier JSON est invalide : " + chemin)
+    if "variables" not in contenu:
+        raise DonneeInvalideError("Clé 'variables' absente du fichier JSON.")
+    variables = []
+    for info in contenu["variables"]:
+        variables.append(variable_depuis_metadonnees(info))
+    return variables
+
+
+def valider_saisies(variables: list, saisies: dict) -> dict:
+    """Valide toutes les saisies et retourne un dictionnaire {nom: valeur}, `saisies` associe le nom d'une variable au texte saisi et lève DonneeInvalideError à la première saisie invalide. """
+    valeurs = {}
+    for variable in variables:
+        if variable.nom in saisies:
+            texte = saisies[variable.nom]
+        else:
+            texte = ""
+        valeurs[variable.nom] = variable.valider(texte)
+    return valeurs
