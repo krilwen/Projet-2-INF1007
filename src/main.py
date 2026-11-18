@@ -45,6 +45,7 @@ def main(arguments: list[str] | None = None) -> int:
         "--predire", nargs=5, metavar=("G1", "G2", "FAILURES", "STUDYTIME", "SCHOOLSUP"),
         help="Predire avec la sauvegarde; schoolsup vaut yes ou no.",
     )
+    actions.add_argument("--interface", action="store_true", help="Ouvrir la fenetre.")
     analyseur.add_argument("--donnees", default=CHEMIN_DONNEES, help="Chemin du CSV.")
     analyseur.add_argument(
         "--sortie", default=os.path.join(RACINE, "modeles"), help="Dossier du modele sauvegarde.",
@@ -55,6 +56,9 @@ def main(arguments: list[str] | None = None) -> int:
             jeu = JeuDeDonnees(options.donnees)
             jeu.charger()
             jeu.explorer(os.path.join(RACINE, "exploration_cible.png"))
+        elif options.interface:
+            from src.interface import lancer
+            lancer()
         # Sans option, on lance l'entrainement.
         elif options.predire is None:
             resultats = entrainer_projet(options.donnees, options.sortie)
