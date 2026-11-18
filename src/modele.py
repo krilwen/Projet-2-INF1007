@@ -68,6 +68,13 @@ class ModeleRegression:
         if self._moyenne_reference is None:
             raise DonneeInvalideError("Le modele n'est pas encore entraine.")
         return self._moyenne_reference
+        
+    @property
+    def rmse(self) -> float:
+        """Retourne le RMSE du modele sur le groupe de test."""
+        if "rmse_modele" not in self._resultats:
+            raise DonneeInvalideError("Le RMSE du modele n'est pas disponible.")
+        return self._resultats["rmse_modele"]
 
     @chronometrer
     def entrainer(self, entrees: pd.DataFrame, cible: pd.Series) -> None:
