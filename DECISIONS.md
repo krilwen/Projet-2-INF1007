@@ -1,6 +1,6 @@
 # Nos décisions
 
-A et B sont validés. Pour C, on a retenu les choix ci-dessous, mais la réponse de la chargée reste à confirmer.
+Les validations A, B, C et D ont été faites.
 
 | Choix | Options envisagées | Ce qu'on a retenu et pourquoi | Validation par la chargée |
 | --- | --- | --- | --- |
@@ -12,6 +12,7 @@ A et B sont validés. Pour C, on a retenu les choix ci-dessous, mais la réponse
 | C - Mesure des erreurs | **RMSE** ou R² | On prend le RMSE pour mesurer les erreurs en points sur 20. Plus il est bas, mieux c'est. | Oui, 17 nov |
 | C - Référence | Toujours prédire une même note | On utilise la moyenne des notes d'entraînement : 11,79/20. On regarde si la régression fait moins d'erreurs que de prédire cette note à chaque fois. | Oui, 17 nov |
 | C - Séparation | Plusieurs répartitions possibles | On utilise 80 % des données pour entraîner et 20 % pour tester. random_state=42 garde les mêmes groupes à chaque exécution. | Oui, 17 nov |
+| D - Interface et maquette | Interface locale | On a choisi Tkinter et présenté la maquette de la fenêtre principale. Tkinter permet d'afficher le formulaire, le graphique Matplotlib et l'historique dans l'application. | Oui, 18 nov |
 
 
 ## Vérifications pour B
@@ -34,5 +35,3 @@ Sources : [Kaggle](https://www.kaggle.com/datasets/larsen0966/student-performanc
 On a 519 élèves dans le groupe d'entraînement et 130 dans le groupe de test. Le RMSE est de 1,152 pour le modèle et de 3,173 pour la référence.
 
 schoolsup est converti de yes/no en 1/0. studytime reste un code entier de 1 à 4, pas un nombre d'heures libre.
-
-La technologie et la maquette de l'interface restent à choisir pour D.
